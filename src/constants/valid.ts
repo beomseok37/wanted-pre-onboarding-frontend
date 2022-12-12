@@ -1,0 +1,9 @@
+const VALID = {
+  EMPTY: 0,
+  INCLUDE_AT: 1,
+  NOT_INCLUDE_AT: 2,
+  BELOW_STANDARD: 3,
+  EXCEEDING_STANDARD: 4,
+};
+
+export { VALID };
