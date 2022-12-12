@@ -1,7 +1,7 @@
 import React from 'react';
 
-function HomePage() {
+function TodoPage() {
   return <p>home</p>;
 }
 
-export default HomePage;
+export default TodoPage;
