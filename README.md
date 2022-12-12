@@ -22,7 +22,13 @@
 git clone https://github.com/beomseok37/wanted-pre-onboarding-frontend.git
 ```
 
-2. 패키지 설치
+2. .env 파일 생성
+
+```bash
+REACT_APP_SERVER_URL="https://pre-onboarding-selection-task.shop"
+```
+
+3. 패키지 설치
 
 ```bash
 # yarn이 없을 경우
@@ -32,7 +38,7 @@ npm install -g yarn
 yarn install
 ```
 
-1. 로컬 서버 실행
+4. 로컬 서버 실행
 
 ```bash
 yarn start
