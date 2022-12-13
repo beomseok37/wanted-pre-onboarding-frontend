@@ -1,5 +1,7 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 import { Column, Row } from 'src/components/grids';
 import { Button, NavigateButton } from 'src/components/Button';
@@ -28,22 +30,20 @@ function SignUpPage() {
     }
   }, [email, password]);
 
-  const resolve = () => {
-    navigate('/signin');
-  };
-
-  const reject = (message: string) => {
-    setAxiosFailMessage(message);
-  };
-
-  const handleClickSignUp = () => {
+  const handleClickSignUp = async () => {
     setAxiosFailMessage('');
-    Fetcher.signUp({
-      path: '/auth/signup',
-      resolve,
-      reject,
-      data: { email, password },
-    });
+    try {
+      await Fetcher.signUp({
+        path: '/auth/signup',
+        data: { email, password },
+      });
+      navigate('/');
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        const { message } = err.response?.data;
+        setAxiosFailMessage(message);
+      }
+    }
   };
 
   return (

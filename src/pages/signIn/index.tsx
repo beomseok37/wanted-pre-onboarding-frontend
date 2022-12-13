@@ -1,6 +1,8 @@
+/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable no-undef */
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 import { Row, Column } from 'src/components/grids';
 import { NavigateButton, Button } from 'src/components/Button';
@@ -29,22 +31,21 @@ function SignInPage() {
     }
   }, [email, password]);
 
-  const resolve = (access_token: string) => {
-    window.localStorage.setItem('access_token', access_token);
-    navigate('/todo');
-  };
-  const reject = (message: string) => {
-    setAxiosFailMessage(message);
-  };
-
-  const handleClickSignIn = () => {
+  const handleClickSignIn = async () => {
     setAxiosFailMessage('');
-    Fetcher.signIn({
-      path: '/auth/signin',
-      resolve,
-      reject,
-      data: { email, password },
-    });
+    try {
+      const { access_token } = await Fetcher.signIn({
+        path: '/auth/signin',
+        data: { email, password },
+      });
+      window.localStorage.setItem('access_token', access_token);
+      navigate('/todo');
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        const { message } = err.response?.data;
+        setAxiosFailMessage(message);
+      }
+    }
   };
 
   return (
