@@ -2,7 +2,8 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import { Row, Column } from 'src/components/grids';
 import Input from 'src/components/Input';
-import Warning from 'src/components/Warning';
+import EmailWarning from '../Warning/EmailWarning';
+import PasswordWarning from '../Warning/passwordWarning';
 
 interface Props {
   type: 'email' | 'password';
@@ -21,7 +22,11 @@ function LabelInput({ type, inputBind }: Props) {
         <p>{type}</p>
         <Input inputBind={inputBind} type={type} />
       </Row>
-      <Warning type={type} value={inputBind[0]} />
+      {type === 'email' ? (
+        <EmailWarning value={inputBind[0]} />
+      ) : (
+        <PasswordWarning value={inputBind[0]} />
+      )}
     </Column>
   );
 }
