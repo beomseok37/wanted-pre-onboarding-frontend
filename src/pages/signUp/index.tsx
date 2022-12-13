@@ -1,25 +1,26 @@
 import React, { useMemo, useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-import { Row } from 'src/components/grids';
-import { Button } from 'src/components/Button';
+import { Column, Row } from 'src/components/grids';
+import { Button, NavigateButton } from 'src/components/Button';
 import SignForm from 'src/components/SignForm';
+import SignUpWarning from 'src/components/Warning/SignUpWarning';
 
-import { emailValidator, passwordValidator } from 'src/utils/validators';
+import { Validator } from 'src/utils/Validators';
+import { Fetcher } from 'src/utils/Fetcher';
 
 import { VALID } from 'src/constants/valid';
 
-// eslint-disable-next-line no-undef
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-
 function SignUpPage() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [axiosFailMessage, setAxiosFailMessage] = useState('');
 
-  const isSignInDisable = useMemo(() => {
+  const isSignUpDisable = useMemo(() => {
     if (
-      emailValidator(email) === VALID.INCLUDE_AT &&
-      passwordValidator(password) === VALID.EXCEEDING_STANDARD
+      Validator.email(email) === VALID.INCLUDE_AT &&
+      Validator.password(password) === VALID.EXCEEDING_STANDARD
     ) {
       return false;
     } else {
@@ -27,16 +28,22 @@ function SignUpPage() {
     }
   }, [email, password]);
 
+  const resolve = () => {
+    navigate('/signin');
+  };
+
+  const reject = (message: string) => {
+    setAxiosFailMessage(message);
+  };
+
   const handleClickSignUp = () => {
-    axios
-      .post(
-        `${SERVER_URL}/auth/signup`,
-        { email, password },
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then(({ data }) => {
-        const { access_token } = data;
-      });
+    setAxiosFailMessage('');
+    Fetcher.signUp({
+      path: '/auth/signup',
+      resolve,
+      reject,
+      data: { email, password },
+    });
   };
 
   return (
@@ -45,16 +52,20 @@ function SignUpPage() {
       emailInputBind={[email, setEmail]}
       passwordInputBind={[password, setPassword]}
     >
-      <Row
-        alignItems='center'
-        width={300}
-        justifyContent='space-evenly'
-        padding={10}
-      >
-        <Button onClick={handleClickSignUp} disabled={isSignInDisable}>
-          SignUp
-        </Button>
-      </Row>
+      <Column alignItems='center' height={70}>
+        <Row
+          alignItems='center'
+          width={300}
+          justifyContent='space-evenly'
+          padding={10}
+        >
+          <NavigateButton href='/signin'>Return</NavigateButton>
+          <Button onClick={handleClickSignUp} disabled={isSignUpDisable}>
+            SignUp
+          </Button>
+        </Row>
+        <SignUpWarning value={axiosFailMessage} />
+      </Column>
     </SignForm>
   );
 }
