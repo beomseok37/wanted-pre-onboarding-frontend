@@ -9,6 +9,8 @@ interface Props {
   width?: number;
   height?: number;
   padding?: number;
+  fullHeight?: boolean;
+  fullWidth?: boolean;
 }
 
 function Column({
@@ -18,6 +20,8 @@ function Column({
   width,
   height,
   padding,
+  fullHeight,
+  fullWidth,
 }: Props) {
   return (
     <Wrapper
@@ -26,6 +30,8 @@ function Column({
       width={width!}
       height={height!}
       padding={padding!}
+      fullHeight={fullHeight!}
+      fullWidth={fullWidth!}
     >
       {children}
     </Wrapper>
@@ -38,6 +44,8 @@ Column.defaultProps = {
   width: 0,
   height: 0,
   padding: 0,
+  fullHeight: false,
+  fullWidth: false,
 };
 
 export default Column;
