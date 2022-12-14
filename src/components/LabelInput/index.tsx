@@ -6,11 +6,20 @@ import EmailWarning from '../Warning/EmailWarning';
 import PasswordWarning from '../Warning/passwordWarning';
 
 interface Props {
-  type: 'email' | 'password';
+  type: 'email' | 'password' | 'todo';
   inputBind: [string, Dispatch<SetStateAction<string>>];
 }
 
 function LabelInput({ type, inputBind }: Props) {
+  const Warning = (() => {
+    if (type === 'email') {
+      return <EmailWarning value={inputBind[0]} />;
+    } else if (type === 'password') {
+      return <PasswordWarning value={inputBind[0]} />;
+    } else {
+      return null;
+    }
+  })();
   return (
     <Column height={100}>
       <Row
@@ -22,11 +31,7 @@ function LabelInput({ type, inputBind }: Props) {
         <p>{type}</p>
         <Input inputBind={inputBind} type={type} />
       </Row>
-      {type === 'email' ? (
-        <EmailWarning value={inputBind[0]} />
-      ) : (
-        <PasswordWarning value={inputBind[0]} />
-      )}
+      {Warning}
     </Column>
   );
 }
