@@ -11,6 +11,7 @@ interface Props {
   padding?: number;
   fullHeight?: boolean;
   fullWidth?: boolean;
+  onClick?: () => void;
 }
 
 function Row({
@@ -22,6 +23,7 @@ function Row({
   padding,
   fullHeight,
   fullWidth,
+  onClick,
 }: Props) {
   return (
     <Wrapper
@@ -32,6 +34,7 @@ function Row({
       padding={padding!}
       fullHeight={fullHeight!}
       fullWidth={fullWidth!}
+      onClick={onClick}
     >
       {children}
     </Wrapper>
@@ -46,6 +49,7 @@ Row.defaultProps = {
   padding: 0,
   fullHeight: false,
   fullWidth: false,
+  onClick: () => {},
 };
 
 export default Row;

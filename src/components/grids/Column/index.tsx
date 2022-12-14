@@ -11,6 +11,7 @@ interface Props {
   padding?: number;
   fullHeight?: boolean;
   fullWidth?: boolean;
+  onClick?: () => void;
 }
 
 function Column({
@@ -22,6 +23,7 @@ function Column({
   padding,
   fullHeight,
   fullWidth,
+  onClick,
 }: Props) {
   return (
     <Wrapper
@@ -32,6 +34,7 @@ function Column({
       padding={padding!}
       fullHeight={fullHeight!}
       fullWidth={fullWidth!}
+      onClick={onClick}
     >
       {children}
     </Wrapper>
@@ -46,6 +49,7 @@ Column.defaultProps = {
   padding: 0,
   fullHeight: false,
   fullWidth: false,
+  onClick: () => {},
 };
 
 export default Column;
