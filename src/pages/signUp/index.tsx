@@ -59,7 +59,7 @@ function SignUpPage() {
           justifyContent='space-evenly'
           padding={10}
         >
-          <NavigateButton href='/signin'>Return</NavigateButton>
+          <NavigateButton href='/'>Return</NavigateButton>
           <Button onClick={handleClickSignUp} disabled={isSignUpDisable}>
             SignUp
           </Button>
