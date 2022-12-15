@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 import axios from 'axios';
 
+import { TODO_ACTION_TYPE } from 'src/constants/reducer';
+
 import {
   ApiProps,
   PostProps,
@@ -15,6 +17,7 @@ import {
   SignResponseType,
   TodoResponseType,
   DeleteTodoProps,
+  TodoAsyncActionType,
 } from 'src/types';
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -73,8 +76,10 @@ const Fetcher = {
       data,
     });
   },
-  createTodo: async ({ todo }: CreateTodoProps): Promise<TodoResponseType> => {
-    const response = await api.post<TodoResponseType, TodoPostDataType>({
+  createTodo: async ({
+    todo,
+  }: CreateTodoProps): Promise<TodoAsyncActionType<TodoResponseType>> => {
+    const { data } = await api.post<TodoResponseType, TodoPostDataType>({
       path: '/todos',
       headers: {
         'Content-Type': 'application/json',
@@ -82,21 +87,21 @@ const Fetcher = {
       },
       data: { todo },
     });
-    return response.data;
+    return { type: TODO_ACTION_TYPE.CREATE, payload: { data } };
   },
-  getTodos: async (): Promise<TodoResponseType[]> => {
-    const response = await api.get<TodoResponseType[]>({
+  getTodos: async (): Promise<TodoAsyncActionType<TodoResponseType[]>> => {
+    const { data } = await api.get<TodoResponseType[]>({
       path: '/todos',
       headers: { Authorization: `Bearer ${getAuth()}` },
     });
-    return response.data;
+    return { type: TODO_ACTION_TYPE.GET, payload: { data } };
   },
   updateTodos: async ({
     id,
     todo,
     isCompleted,
-  }: UpdateTodoProps): Promise<TodoResponseType> => {
-    const response = await api.put<TodoResponseType, TodoPutDataType>({
+  }: UpdateTodoProps): Promise<TodoAsyncActionType<TodoResponseType>> => {
+    const { data } = await api.put<TodoResponseType, TodoPutDataType>({
       path: `/todos/${id}`,
       headers: {
         'Content-Type': 'application/json',
@@ -105,9 +110,11 @@ const Fetcher = {
       data: { todo, isCompleted },
     });
 
-    return response.data;
+    return { type: TODO_ACTION_TYPE.UPDATE, payload: { data } };
   },
-  delete: async ({ id }: DeleteTodoProps) => {
+  delete: async ({
+    id,
+  }: DeleteTodoProps): Promise<TodoAsyncActionType<number>> => {
     await api.delete({
       path: `/todos/${id}`,
       headers: {
@@ -115,6 +122,7 @@ const Fetcher = {
         Authorization: `Bearer ${getAuth()}`,
       },
     });
+    return { type: TODO_ACTION_TYPE.DELETE, payload: { data: id } };
   },
 };
 
