@@ -9,4 +9,9 @@ interface TodoResponseType {
   userId: number;
 }
 
-export type { SignResponseType, TodoResponseType };
+interface TodoAsyncActionType<T> {
+  type: string;
+  payload: { data: T };
+}
+
+export type { SignResponseType, TodoResponseType, TodoAsyncActionType };

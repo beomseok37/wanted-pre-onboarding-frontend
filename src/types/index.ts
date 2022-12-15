@@ -7,7 +7,11 @@ import {
   UpdateTodoProps,
   DeleteTodoProps,
 } from './fetcherParamsType';
-import { SignResponseType, TodoResponseType } from './fetcherResponseType';
+import {
+  SignResponseType,
+  TodoResponseType,
+  TodoAsyncActionType,
+} from './fetcherResponseType';
 import { CellType } from './cell';
 import { TodoActionType, TodoStateType } from './todoReducer';
 
@@ -28,4 +32,5 @@ export type {
   CellType,
   TodoActionType,
   TodoStateType,
+  TodoAsyncActionType,
 };
