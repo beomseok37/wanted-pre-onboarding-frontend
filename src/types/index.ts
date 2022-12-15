@@ -3,9 +3,9 @@ import { SignDataType, TodoPostDataType, TodoPutDataType } from './apiDataType';
 import { ReturnType } from './apiReturType';
 import {
   SignProps,
-  TodoProps,
   CreateTodoProps,
   UpdateTodoProps,
+  DeleteTodoProps,
 } from './fetcherParamsType';
 import { SignResponseType, TodoResponseType } from './fetcherResponseType';
 import { CellType } from './cell';
@@ -20,9 +20,9 @@ export type {
   TodoPutDataType,
   ReturnType,
   SignProps,
-  TodoProps,
   CreateTodoProps,
   UpdateTodoProps,
+  DeleteTodoProps,
   SignResponseType,
   TodoResponseType,
   CellType,

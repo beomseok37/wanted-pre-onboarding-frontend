@@ -10,14 +10,16 @@ import {
   TodoPutDataType,
   ReturnType,
   SignProps,
-  TodoProps,
   CreateTodoProps,
   UpdateTodoProps,
   SignResponseType,
   TodoResponseType,
+  DeleteTodoProps,
 } from 'src/types';
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+
+const getAuth = () => window.localStorage.getItem('access_token') as string;
 
 const api = {
   post: async <R, D>(props: PostProps<D>): Promise<ReturnType<R>> => {
@@ -56,71 +58,61 @@ const api = {
 };
 
 const Fetcher = {
-  signIn: async ({ path, data }: SignProps): Promise<SignResponseType> => {
-    const { email, password } = data;
+  signIn: async ({ data }: SignProps): Promise<SignResponseType> => {
     const response = await api.post<SignResponseType, SignDataType>({
-      path,
+      path: '/auth/signin',
       headers: { 'Content-Type': 'application/json' },
-      data: { email, password },
+      data,
     });
     return response.data;
   },
-  signUp: async ({ path, data }: SignProps) => {
-    const { email, password } = data;
+  signUp: async ({ data }: SignProps) => {
     await api.post<SignResponseType, SignDataType>({
-      path,
+      path: '/auth/signup',
       headers: { 'Content-Type': 'application/json' },
-      data: { email, password },
+      data,
     });
   },
-  createTodo: async ({
-    path,
-    access_token,
-    todo,
-  }: CreateTodoProps): Promise<TodoResponseType> => {
+  createTodo: async ({ todo }: CreateTodoProps): Promise<TodoResponseType> => {
     const response = await api.post<TodoResponseType, TodoPostDataType>({
-      path,
+      path: '/todos',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${access_token}`,
+        Authorization: `Bearer ${getAuth()}`,
       },
       data: { todo },
     });
     return response.data;
   },
-  getTodos: async ({
-    path,
-    access_token,
-  }: TodoProps): Promise<TodoResponseType[]> => {
+  getTodos: async (): Promise<TodoResponseType[]> => {
     const response = await api.get<TodoResponseType[]>({
-      path,
-      headers: { Authorization: `Bearer ${access_token}` },
+      path: '/todos',
+      headers: { Authorization: `Bearer ${getAuth()}` },
     });
     return response.data;
   },
   updateTodos: async ({
-    path,
-    access_token,
+    id,
     todo,
     isCompleted,
   }: UpdateTodoProps): Promise<TodoResponseType> => {
     const response = await api.put<TodoResponseType, TodoPutDataType>({
-      path,
+      path: `/todos/${id}`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${access_token}`,
+        Authorization: `Bearer ${getAuth()}`,
       },
       data: { todo, isCompleted },
     });
 
     return response.data;
   },
-  delete: async ({ path, access_token }: TodoProps) => {
+  delete: async ({ id }: DeleteTodoProps) => {
     await api.delete({
-      path,
+      path: `/todos/${id}`,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${access_token}`,
+        Authorization: `Bearer ${getAuth()}`,
       },
     });
   },

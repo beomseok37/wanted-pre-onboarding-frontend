@@ -6,18 +6,18 @@ interface SignProps {
   };
 }
 
-interface TodoProps {
-  path: string;
-  access_token: string;
-}
-
-interface CreateTodoProps extends TodoProps {
+interface CreateTodoProps {
   todo: string;
 }
 
-interface UpdateTodoProps extends TodoProps {
+interface UpdateTodoProps {
   todo: string;
   isCompleted: boolean;
+  id: number;
 }
 
-export type { SignProps, TodoProps, CreateTodoProps, UpdateTodoProps };
+interface DeleteTodoProps {
+  id: number;
+}
+
+export type { SignProps, CreateTodoProps, UpdateTodoProps, DeleteTodoProps };

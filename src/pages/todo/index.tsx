@@ -49,26 +49,19 @@ function TodoPage() {
   }, [todo, selectedTodo]);
 
   const getTodo = async () => {
-    const access_token = window.localStorage.getItem('access_token') as string;
-    const path = '/todos';
-    const data = await Fetcher.getTodos({ access_token, path });
+    const data = await Fetcher.getTodos();
     todoDispatch({ type: TODO_ACTION_TYPE.GET, payload: { data } });
   };
 
   const createTodo = async () => {
-    const access_token = window.localStorage.getItem('access_token') as string;
-    const path = '/todos';
-    const data = await Fetcher.createTodo({ path, access_token, todo: todo });
+    const data = await Fetcher.createTodo({ todo: todo });
     todoDispatch({ type: TODO_ACTION_TYPE.CREATE, payload: { data } });
   };
 
   const updateTodo = async () => {
-    const access_token = window.localStorage.getItem('access_token') as string;
     const { id } = selectedTodo;
-    const path = `/todos/${id}`;
     const data = await Fetcher.updateTodos({
-      path,
-      access_token,
+      id,
       todo,
       isCompleted,
     });
@@ -76,10 +69,8 @@ function TodoPage() {
   };
 
   const deleteTodo = async () => {
-    const access_token = window.localStorage.getItem('access_token') as string;
     const { id } = selectedTodo;
-    const path = `/todos/${id}`;
-    await Fetcher.delete({ path, access_token });
+    await Fetcher.delete({ id });
     todoDispatch({ type: TODO_ACTION_TYPE.DELETE, payload: { data: id } });
   };
 
@@ -97,7 +88,7 @@ function TodoPage() {
     setIsCompleted(newIsCompleted);
   };
 
-  const todoInputInitialization = () => {
+  const initializeTodoInput = () => {
     setTodoInput({
       newTodo: '',
       newSelectedTodo: initialSelectedTodo,
@@ -111,7 +102,7 @@ function TodoPage() {
     if (action instanceof (async () => {}).constructor) {
       await action();
     }
-    todoInputInitialization();
+    initializeTodoInput();
   };
 
   const handleClickTodo = (nowTodo: TodoResponseType) => {
