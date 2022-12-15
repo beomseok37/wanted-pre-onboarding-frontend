@@ -55,7 +55,7 @@ function TodoPage() {
   };
 
   const createTodo = async () => {
-    await asyncDispatch(Fetcher.createTodo({ todo: todo }));
+    await asyncDispatch(Fetcher.createTodo({ todo }));
   };
 
   const updateTodo = async () => {
