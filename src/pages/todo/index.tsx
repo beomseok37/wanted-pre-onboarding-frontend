@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Column, Row } from 'src/components/grids';
 import LabelInput from 'src/components/LabelInput';
@@ -7,13 +7,12 @@ import LabelElement from 'src/components/LabelElement';
 import { Button, IconButton } from 'src/components/Button';
 import TodoList from 'src/components/TodoList';
 
-import { TODO_ACTION_TYPE } from 'src/constants/reducer';
-
 import { todoReducer } from 'src/reducer/todo';
+import useAsyncReducer from 'src/hooks/useAsyncReducer';
 
 import { Fetcher } from 'src/utils/Fetcher';
 
-import { TodoResponseType } from 'src/types';
+import { TodoActionType, TodoResponseType, TodoStateType } from 'src/types';
 
 import { Wrapper, Title, Check } from './style';
 
@@ -31,7 +30,10 @@ const initialSelectedTodo = {
 };
 
 function TodoPage() {
-  const [todoState, todoDispatch] = useReducer(todoReducer, { todoList: [] });
+  const [asyncState, asyncDispatch] = useAsyncReducer<
+    TodoStateType,
+    TodoActionType
+  >(todoReducer, { todoList: [] });
   const [todo, setTodo] = useState('');
   const [isCompleted, setIsCompleted] = useState(false);
   const [selectedTodo, setSelectedTodo] =
@@ -49,29 +51,27 @@ function TodoPage() {
   }, [todo, selectedTodo]);
 
   const getTodo = async () => {
-    const data = await Fetcher.getTodos();
-    todoDispatch({ type: TODO_ACTION_TYPE.GET, payload: { data } });
+    await asyncDispatch(Fetcher.getTodos());
   };
 
   const createTodo = async () => {
-    const data = await Fetcher.createTodo({ todo: todo });
-    todoDispatch({ type: TODO_ACTION_TYPE.CREATE, payload: { data } });
+    await asyncDispatch(Fetcher.createTodo({ todo: todo }));
   };
 
   const updateTodo = async () => {
     const { id } = selectedTodo;
-    const data = await Fetcher.updateTodos({
-      id,
-      todo,
-      isCompleted,
-    });
-    todoDispatch({ type: TODO_ACTION_TYPE.UPDATE, payload: { data } });
+    await asyncDispatch(
+      Fetcher.updateTodos({
+        id,
+        todo,
+        isCompleted,
+      })
+    );
   };
 
   const deleteTodo = async () => {
     const { id } = selectedTodo;
-    await Fetcher.delete({ id });
-    todoDispatch({ type: TODO_ACTION_TYPE.DELETE, payload: { data: id } });
+    await asyncDispatch(Fetcher.delete({ id }));
   };
 
   const setTodoInput = ({
@@ -169,7 +169,10 @@ function TodoPage() {
           )}
         </Row>
 
-        <TodoList todoList={todoState.todoList} onClickTodo={handleClickTodo} />
+        <TodoList
+          todoList={asyncState.todoList}
+          onClickTodo={handleClickTodo}
+        />
       </Column>
     </Wrapper>
   );
