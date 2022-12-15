@@ -11,7 +11,7 @@ const Cell = styled.p<CellProps>`
   justify-content: center;
   flex: ${({ size }) => (size === 'small' ? 1 : 3)};
   border-right: ${({ borderRightNone }) =>
-    borderRightNone ? 'unset' : '1px solid #aaa'};
+    borderRightNone ? 'unset' : '1px solid #ccc'};
   cursor: pointer;
 `;
 

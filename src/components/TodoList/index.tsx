@@ -8,7 +8,7 @@ import { todoKeyOrder } from 'src/constants/order';
 import { TodoResponseType, CellType } from 'src/types';
 import Todo from '../Todo';
 
-import { Wrapper } from './style';
+import { Wrapper, TodoWrapper, AttributeWrapper } from './style';
 
 interface Props {
   todoList: TodoResponseType[];
@@ -25,14 +25,18 @@ const attributeList = todoKeyOrder.map(
 function TodoList({ todoList, onClickTodo }: Props) {
   return (
     <Wrapper>
-      <Line cellList={attributeList} />
-      {todoList.map((todo, index) => (
-        <Todo
-          key={JSON.stringify(todo) + index.toString()}
-          todo={todo}
-          onClickTodo={() => onClickTodo(todo)}
-        />
-      ))}
+      <AttributeWrapper>
+        <Line cellList={attributeList} />
+      </AttributeWrapper>
+      <TodoWrapper>
+        {todoList.map((todo, index) => (
+          <Todo
+            key={JSON.stringify(todo) + index.toString()}
+            todo={todo}
+            onClickTodo={() => onClickTodo(todo)}
+          />
+        ))}
+      </TodoWrapper>
     </Wrapper>
   );
 }
