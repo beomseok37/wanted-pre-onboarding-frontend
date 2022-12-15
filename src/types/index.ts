@@ -1,17 +1,17 @@
-import { ApiProps, PostProps, PutProps } from './apiPropsType';
-import { SignDataType, TodoPostDataType, TodoPutDataType } from './apiDataType';
-import { ReturnType } from './apiReturType';
+import { ApiProps, PostProps, PutProps } from './apiProps';
+import { SignDataType, TodoPostDataType, TodoPutDataType } from './apiData';
+import { ReturnType } from './apiReturn';
 import {
   SignProps,
   CreateTodoProps,
   UpdateTodoProps,
   DeleteTodoProps,
-} from './fetcherParamsType';
+} from './fetcherParams';
 import {
   SignResponseType,
   TodoResponseType,
   TodoAsyncActionType,
-} from './fetcherResponseType';
+} from './fetcherResponse';
 import { CellType } from './cell';
 import { TodoActionType, TodoStateType } from './todoReducer';
 

@@ -8,7 +8,7 @@
 // {token,id}, {path}
 import { TODO_ACTION_TYPE } from 'src/constants/reducer';
 
-import { TodoResponseType } from './fetcherResponseType';
+import { TodoResponseType } from './fetcherResponse';
 
 interface TodoPayloadType<T> {
   data: T;
