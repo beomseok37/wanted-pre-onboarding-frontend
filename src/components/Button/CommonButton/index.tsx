@@ -5,12 +5,13 @@ import { Button } from './style';
 interface Props {
   children: ReactNode;
   onClick: () => void;
-  disabled: boolean;
+  disabled?: boolean;
+  noBorder?: boolean;
 }
 
-function CommonButton({ children, onClick, disabled }: Props) {
+function CommonButton({ children, onClick, disabled, noBorder }: Props) {
   return (
-    <Button onClick={onClick} disabled={disabled}>
+    <Button onClick={onClick} disabled={disabled!} noBorder={noBorder!}>
       {children}
     </Button>
   );
@@ -18,6 +19,7 @@ function CommonButton({ children, onClick, disabled }: Props) {
 
 CommonButton.defaultProps = {
   disabled: false,
+  noBorder: false,
 };
 
 export default CommonButton;

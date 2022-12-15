@@ -14,11 +14,9 @@ const Title = styled.p`
 `;
 
 const Check = styled.p`
-  width: 230px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 32px;
 `;
-
 export { Wrapper, Title, Check };

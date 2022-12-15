@@ -2,18 +2,21 @@ import styled from '@emotion/styled';
 
 interface Props {
   disabled: boolean;
+  noBorder: boolean;
 }
 
 const Button = styled.button<Props>`
-  padding: 10px;
-  border: 1px solid #aaa;
-  background: #fff;
   color: #000;
   border-radius: 4px;
+  padding: ${({ noBorder }) => (noBorder ? '0' : '10px')};
+
+  border: ${({ noBorder }) => (noBorder ? 'unset' : '1px solid #ccc')};
+
   cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
 
   &:hover {
-    background: ${({ disabled }) => (disabled ? '#fff' : '#aaa')};
+    background: ${({ disabled, noBorder }) =>
+      disabled ? '#fff' : noBorder ? 'transparent' : '#ccc'};
     color: ${({ disabled }) => (disabled ? '#000' : '#fff')};
   }
 

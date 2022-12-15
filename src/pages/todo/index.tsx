@@ -4,7 +4,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { Column, Row } from 'src/components/grids';
 import LabelInput from 'src/components/LabelInput';
 import LabelElement from 'src/components/LabelElement';
-import { Button } from 'src/components/Button';
+import { Button, IconButton } from 'src/components/Button';
 import TodoList from 'src/components/TodoList';
 
 import { TODO_ACTION_TYPE } from 'src/constants/reducer';
@@ -15,7 +15,7 @@ import { Fetcher } from 'src/utils/Fetcher';
 
 import { TodoResponseType } from 'src/types';
 
-import { Wrapper, Title } from './style';
+import { Wrapper, Title, Check } from './style';
 
 /**
  * todo만 있음 됨
@@ -133,15 +133,23 @@ function TodoPage() {
         <Title>Todo List</Title>
         <LabelInput type='todo' inputBind={[todo, setTodo]} />
         <LabelElement
-          type='check'
+          type='isCompleted'
           element={
-            isSelected || !!todo ? (
-              isCompleted ? (
-                <Button onClick={handleClickCheck}>✅</Button>
-              ) : (
-                <Button onClick={handleClickCheck}>🟩</Button>
-              )
-            ) : null
+            <Row alignItems='center'>
+              {isSelected || !!todo ? (
+                <>
+                  {isCompleted ? (
+                    <IconButton onClick={handleClickCheck}>
+                      <Check>✅</Check>
+                    </IconButton>
+                  ) : (
+                    <IconButton onClick={handleClickCheck}>
+                      <Check>🟩</Check>
+                    </IconButton>
+                  )}
+                </>
+              ) : null}
+            </Row>
           }
         />
         <Row
