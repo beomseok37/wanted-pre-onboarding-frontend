@@ -50,17 +50,17 @@ function TodoPage() {
     }
   }, [todo, selectedTodo]);
 
-  const getTodo = async () => {
-    await asyncDispatch(Fetcher.getTodos());
+  const getTodo = () => {
+    asyncDispatch(Fetcher.getTodos());
   };
 
-  const createTodo = async () => {
-    await asyncDispatch(Fetcher.createTodo({ todo }));
+  const createTodo = () => {
+    asyncDispatch(Fetcher.createTodo({ todo }));
   };
 
-  const updateTodo = async () => {
+  const updateTodo = () => {
     const { id } = selectedTodo;
-    await asyncDispatch(
+    asyncDispatch(
       Fetcher.updateTodos({
         id,
         todo,
@@ -69,9 +69,9 @@ function TodoPage() {
     );
   };
 
-  const deleteTodo = async () => {
+  const deleteTodo = () => {
     const { id } = selectedTodo;
-    await asyncDispatch(Fetcher.delete({ id }));
+    asyncDispatch(Fetcher.delete({ id }));
   };
 
   const setTodoInput = ({
@@ -96,12 +96,8 @@ function TodoPage() {
     });
   };
 
-  const handleClickTodoCUD = async (
-    action: () => Promise<void> | void = () => {}
-  ) => {
-    if (action instanceof (async () => {}).constructor) {
-      await action();
-    }
+  const handleClickTodoCUD = (action: () => void = () => {}) => {
+    action();
     initializeTodoInput();
   };
 
